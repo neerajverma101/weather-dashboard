@@ -23,7 +23,7 @@ function WeatherDashboard() {
 
       // Get current weather
       const currentWeatherResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
+        `${import.meta.env.VITE_OPENWEATHER_BASEURL}/weather?q=${city}&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
       );
       const currentWeather = await currentWeatherResponse.json();
 
@@ -33,7 +33,7 @@ function WeatherDashboard() {
 
       // Get hourly forecast data
       const forecastResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
+        `${import.meta.env.VITE_OPENWEATHER_BASEURL}/forecast?q=${city}&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
       );
       const forecast = await forecastResponse.json();
 

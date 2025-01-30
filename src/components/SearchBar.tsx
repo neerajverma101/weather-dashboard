@@ -42,7 +42,7 @@ export function SearchBar({ onSearch, className }: SearchBarProps) {
 
       try {
         const response = await fetch(
-          `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
+          `${import.meta.env.VITE_OPENWEATHER_GEO_API}/direct?q=${query}&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
         );
         const data = await response.json();
         setSuggestions(data);
