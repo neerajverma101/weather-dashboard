@@ -48,3 +48,12 @@ export default tseslint.config({
   },
 })
 ```
+## Components
+- Weather
+  - Logo
+  - Search
+  - CurrentWeather
+  - WeatherCard
+    - WeatherDetails
+    - HourlyWeather
+      - HourlyWeatherList
