@@ -1,18 +1,16 @@
-import React from 'react';
-import { Cloud, CloudRain, CloudSnow, Sun, CloudLightning, Thermometer, Wind, Droplets, CloudDrizzle, CloudCog, CloudFog } from 'lucide-react';
+import { getLocalTime, kelvinToCelsius } from '@/lib/utils';
 import { WeatherResponse } from '@/types/weather';
-import { kelvinToCelsius, formatDate } from '@/lib/utils';
+import { Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, Droplets, Sun, Thermometer, Wind } from 'lucide-react';
+import React from 'react';
 import { HourlyForecast } from './HourlyForecast';
 import { SearchBar } from './SearchBar';
 
 interface WeatherCardProps {
-  data: WeatherResponse & {
-    hourly: WeatherResponse['hourly'];
-  };
+  data: WeatherResponse;
   setCity: (city: string) => void;
 }
 
-const weatherIcons: Record<string, React.ComponentType<any>> = {
+const weatherIcons: Record<string, React.FC> = {
   Clear: Sun,
   Clouds: Cloud,
   Rain: CloudRain,
@@ -40,14 +38,14 @@ export function WeatherCard({ data, setCity }: WeatherCardProps) {
             <WeatherIcon size={48} className="text-white" />
             <div>
               <div className="flex items-baseline">
-                <span className="text-7xl font-light text-white">{temp}&#176;</span>
-                <span className="text-5xl text-white/80 ml-1">C</span>
+                <span className="text-7xl font-light text-white sm:text-3xl md:text-5xl">{temp}&#176;</span>
+                <span className="text-5xl text-white/80 ml-1 sm:text-2xl md:text-xl">C</span>
               </div>
             </div>
             <div className="text-left">
               <h2 className="text-3xl font-semibold text-white">{data.name}</h2>
-              <div className="text-white/80">{formatDate(new Date(), "time")}</div>
-              <div className="text-white/80">{formatDate(new Date())}</div>
+              <div className="text-white/80">{getLocalTime(data.timezone, "time")}</div>
+              <div className="text-white/80">{getLocalTime(data.timezone, 'date')}</div>
             </div>
           </div>
         </div>
