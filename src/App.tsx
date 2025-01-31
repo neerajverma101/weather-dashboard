@@ -12,6 +12,15 @@ interface WeatherError {
   cod?: number | string;
 }
 
+const weatherKeywords: Record<string, string> = {
+  Clear: 'sunny,clear-sky',
+  Clouds: 'cloudy,clouds',
+  Rain: 'rainy,rain',
+  Snow: 'snow,winter',
+  Thunderstorm: 'storm,lightning',
+  Mist: 'foggy,mist',
+};
+
 function WeatherDashboard() {
   const [city, setCity] = useState('');
   const { theme, toggleTheme } = useTheme();
@@ -45,11 +54,57 @@ function WeatherDashboard() {
     enabled: !!city,
   });
 
+  const { data: imageData } = useQuery({
+    queryKey: ['background', data?.current?.weather[0]?.main],
+    queryFn: async () => {
+      if (!data?.current?.weather[0]?.main) return null;
+
+      const keywords = weatherKeywords[data.current.weather[0].main] || 'nature,weather';
+      const response = await fetch(
+        `https://api.unsplash.com/photos/random?query=${keywords}&orientation=landscape`,
+        {
+          headers: {
+            Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_API}`
+          }
+        }
+      );
+      const imageData = await response.json();
+      return imageData.urls.regular;
+    },
+    enabled: !!data?.current?.weather[0]?.main,
+  });
+
+  const backgroundImage = imageData || '';
+  const backgroundStyle = backgroundImage
+    ? {
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }
+    : {};
+
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600 dark:from-gray-900 dark:to-gray-800 p-6 md:p-8 transition-all duration-500"
+      className={`min-h-screen ${!backgroundImage ? 'bg-gradient-to-br from-blue-400 to-blue-600' : ''} 
+      dark:from-gray-900 dark:to-gray-800 p-6 md:p-8 transition-all duration-500 
+      relative ${backgroundImage ? 'bg-cover bg-center bg-no-repeat' : ''}`}
+      style={backgroundStyle}
     >
-      <div className="max-w-6xl mx-auto">
+      <div
+        className="absolute inset-0 transition-colors duration-500"
+        style={{
+          backgroundColor: theme === "dark"
+            ? "rgba(0, 0, 0, 0.6)"  // Darker overlay (not too dark)
+            : "rgba(255, 255, 255, 0.3)", // Light overlay for visibility
+          backdropFilter: "blur(4px)",  // Subtle blur for readability
+        }}
+      ></div>
+      <div className="relative z-1 max-w-6xl mx-auto " style={{
+        filter: "brightness(1.1) contrast(1.2)", // Slight boost for clarity
+        position: "relative",
+        zIndex: 10
+      }}>
         <div className="flex flex-col gap-8">
           <div className="flex justify-between items-center gap-4">
             <div id="logo" className="border border-white/20 px-4 py-1 rounded-lg">
@@ -60,9 +115,9 @@ function WeatherDashboard() {
             </div>
             <Button id="toggle-mode" onClick={toggleTheme}>
               {theme === 'dark' ? (
-                <Sun className="text-white" size={24} />
+                <Sun className="text-white dark:text-white" size={24} />
               ) : (
-                <Moon className="text-white" size={24} />
+                <Moon className="text-gray-800 dark:text-white" size={24} />
               )}
             </Button>
           </div>

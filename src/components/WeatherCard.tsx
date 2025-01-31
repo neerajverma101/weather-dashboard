@@ -53,26 +53,26 @@ export function WeatherCard({ data, setCity }: WeatherCardProps) {
         </div>
 
         {/* Weather Details */}
-        <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 flex-1">
+        <div className="bg-white/20 backdrop-blur-md rounded-lg p-6 flex-1 dark:bg-white/40">
           <p className="text-lg text-white/95 mb-4 text-center">
             {data.weather[0].description.toUpperCase()}
           </p>
-          <div className="flex">
-            <div className="flex items-center justify-between">
+          <div className="">
+            <div className="flex items-center justify-between ">
               <span className="text-white/80">Max</span>
               <span className="text-xl text-white flex items-center gap-1 md:gap-2 lg:gap-4">{maxTemp}&#176; <Thermometer className="text-white/80" /></span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
               <span className="text-white/80">Min</span>
               <span className="text-xl text-white flex items-center gap-1 md:gap-2 lg:gap-4">{minTemp}&#176; <Thermometer className="text-white/80" /></span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
               <span className="text-white/80">Humidity</span>
               <span className="text-xl text-white flex items-center gap-1 md:gap-2 lg:gap-4">{data.main.humidity}% <Droplets className="text-white/80" /></span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
               <span className="text-white/80">Wind</span>
-              <span className="text-xl text-white flex items-center gap-1 md:gap-2 lg:gap-4">{data.wind.speed}km/h <Wind className="text-white/80" />            </span>
+              <span className="text-xl text-white flex items-center gap-1 md:gap-2 lg:gap-4">{data.wind.speed}km/h <Wind className="text-white/80" /></span>
             </div>
           </div>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />

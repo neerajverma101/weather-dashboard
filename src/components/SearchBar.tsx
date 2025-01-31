@@ -87,7 +87,7 @@ export function SearchBar({ onSearch, className }: SearchBarProps) {
       </form>
 
       {showDropdown && (suggestions.length > 0 || recentSearches.length > 0) && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 backdrop-blur-md rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg z-1">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 backdrop-blur-md rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg z-50">
           <ul>
             {suggestions.length > 0 ? (
               suggestions.map((suggestion, index) => (
