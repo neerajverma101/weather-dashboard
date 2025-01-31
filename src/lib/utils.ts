@@ -18,19 +18,42 @@ export function formatDate(date: Date, format: 'full' | 'time' | 'datetime' = 'f
   };
 
   if (format === 'time') {
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat('en-GB', {
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
+      hour12: true
     }).format(date);
   }
 
   if (format === 'datetime') {
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat('en-GB', {
       ...options,
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
+      hour12: true
     }).format(date);
   }
 
-  return new Intl.DateTimeFormat('en-US', options).format(date);
+  return new Intl.DateTimeFormat('en-GB', options).format(date);
+}
+
+
+export function getLocalTime(timezoneOffset, format = "full") {
+  const now = new Date();
+  const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+  const localTime = new Date(utcTime + timezoneOffset * 1000);
+
+  const options = {
+    time: { hour: "2-digit", minute: "2-digit", hour12: true },
+    date: { weekday: "long", day: "numeric", month: "short", year: "2-digit" },
+    dateMonthYear: { day: "numeric", month: "short", year: "2-digit" },
+    full: { weekday: "long", day: "numeric", month: "short", year: "2-digit", hour: "2-digit", minute: "2-digit", hour12: true }
+  };
+
+  let formattedDate = new Intl.DateTimeFormat("en-GB", options[format]).format(localTime);
+  if (format === "date" || format === "full") {
+    formattedDate = formattedDate.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/, "$1,");
+  }
+
+  return formattedDate;
 }

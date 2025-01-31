@@ -59,6 +59,7 @@ export interface WeatherResponse {
     };
     dt_txt: string;
   }[];
+  timezone: number;
 }
 
 export interface WeatherError {
