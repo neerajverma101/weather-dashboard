@@ -40,7 +40,9 @@ export function formatDate(date: Date, format: 'full' | 'time' | 'datetime' = 'f
 
 export function getLocalTime(timezoneOffset, format = "full") {
   const now = new Date();
-  const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+  const utcTime = now.getTime(); // Get milliseconds since epoch in UTC
+
+  // Correctly apply the timezone offset (in milliseconds)
   const localTime = new Date(utcTime + timezoneOffset * 1000);
 
   const options = {
