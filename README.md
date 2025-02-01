@@ -63,5 +63,5 @@ npm run build
     - HourlyWeather
       - HourlyWeatherList
      
-##Deployed on Vercel
+## Deployed on Vercel
 https://weather-dashboard-n101.vercel.app

@@ -39,14 +39,14 @@ export function formatDate(date: Date, format: 'full' | 'time' | 'datetime' = 'f
 }
 
 
-export function getLocalTime(timezone: string, format: "time" | "date" | "datetime" | "dateMonthYear" | "all" = "full") {
+export function getLocalTime(timezone: number, format: "time" | "date" | "datetime" | "dateMonthYear" | "full" = "full") {
   const now = DateTime.utc().plus({ seconds: timezone });
   const formatMap: Record<string, string> = {
     time: "hh:mm a",
     date: "EEEE, d MMM yy",
     dateMonthYear: "d MMM yy",
     datetime: "EEEE, d MMM yy, hh:mm a",
-    all: "EEEE, d MMM yy, hh:mm:ss a 'UTC'Z"
+    full: "EEEE, d MMM yy, hh:mm:ss a 'UTC'Z"
   };
   const selectedFormat = formatMap[format] || formatMap["datetime"];
   const formattedDate = now.toFormat(selectedFormat);
