@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { DateTime } from 'luxon'
 
 export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
@@ -38,24 +39,16 @@ export function formatDate(date: Date, format: 'full' | 'time' | 'datetime' = 'f
 }
 
 
-export function getLocalTime(timezoneOffset, format = "full") {
-  const now = new Date();
-  const utcTime = now.getTime(); // Get milliseconds since epoch in UTC
-
-  // Correctly apply the timezone offset (in milliseconds)
-  const localTime = new Date(utcTime + timezoneOffset * 1000);
-
-  const options = {
-    time: { hour: "2-digit", minute: "2-digit", hour12: true },
-    date: { weekday: "long", day: "numeric", month: "short", year: "2-digit" },
-    dateMonthYear: { day: "numeric", month: "short", year: "2-digit" },
-    full: { weekday: "long", day: "numeric", month: "short", year: "2-digit", hour: "2-digit", minute: "2-digit", hour12: true }
+export function getLocalTime(timezone: number, format: "time" | "date" | "datetime" | "dateMonthYear" | "full" = "full") {
+  const now = DateTime.utc().plus({ seconds: timezone });
+  const formatMap: Record<string, string> = {
+    time: "hh:mm a",
+    date: "EEEE, d MMM yy",
+    dateMonthYear: "d MMM yy",
+    datetime: "EEEE, d MMM yy, hh:mm a",
+    full: "EEEE, d MMM yy, hh:mm:ss a 'UTC'Z"
   };
-
-  let formattedDate = new Intl.DateTimeFormat("en-GB", options[format]).format(localTime);
-  if (format === "date" || format === "full") {
-    formattedDate = formattedDate.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/, "$1,");
-  }
-
+  const selectedFormat = formatMap[format] || formatMap["datetime"];
+  const formattedDate = now.toFormat(selectedFormat);
   return formattedDate;
 }

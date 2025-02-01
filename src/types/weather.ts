@@ -60,6 +60,35 @@ export interface WeatherResponse {
     dt_txt: string;
   }[];
   timezone: number;
+  current: {
+    coord: {
+      lon: number;
+      lat: number;
+    };
+    weather: {
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
+    }[];
+    main: {
+      temp: number;
+      feels_like: number;
+      temp_min: number;
+      temp_max: number;
+      pressure: number;
+      humidity: number;
+    };
+    wind: {
+      speed: number;
+      deg: number;
+    };
+    name: string;
+    sys: {
+      country: string;
+    };
+    timezone: number;
+  };
 }
 
 export interface WeatherError {
