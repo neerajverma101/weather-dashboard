@@ -25,7 +25,7 @@ function WeatherDashboard() {
   const [city, setCity] = useState('');
   const { theme, toggleTheme } = useTheme();
 
-  const { data, error, isLoading } = useQuery<WeatherResponse & { hourly: WeatherResponse['hourly'] }, WeatherError>({
+  const { data, error, isLoading } = useQuery<WeatherResponse, WeatherError>({
     queryKey: ['weather', city],
     queryFn: async () => {
       if (!city) return null;
@@ -59,9 +59,9 @@ function WeatherDashboard() {
     queryFn: async () => {
       if (!data?.current?.weather[0]?.main) return null;
 
-      const keywords = weatherKeywords[data.current.weather[0].main] || 'nature,weather';
+      const keywords = weatherKeywords[data.current.weather[0].main] || 'natural,weather,day,evening,night';
       const response = await fetch(
-        `https://api.unsplash.com/photos/random?query=${keywords}&orientation=landscape`,
+        `https://api.unsplash.com/photos/random?query=${keywords},day,night,evening&orientation=landscape`,
         {
           headers: {
             Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_API}`
