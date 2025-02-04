@@ -52,3 +52,30 @@ export function getLocalTime(timezone: number, format: "time" | "date" | "dateti
   const formattedDate = now.toFormat(selectedFormat);
   return formattedDate;
 }
+
+export function getLocalTimeFromUTC(utcTimestamp: number, timezoneOffset: number, format: 'time' | 'datetime' = 'datetime'): string {
+  // Check if the timestamp is valid
+  if (isNaN(utcTimestamp) || utcTimestamp <= 0) {
+    return 'Invalid Date';
+  }
+
+  // Create a Luxon DateTime object from the UTC timestamp
+  const dateTime = DateTime.fromSeconds(utcTimestamp).setZone(`UTC${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset / 3600}`);
+
+  // Check if the DateTime is valid
+  if (!dateTime.isValid) {
+    return 'Invalid Date';
+  }
+
+  // Define the format options
+  const formatMap: Record<string, string> = {
+    time: "hh:mm a",
+    datetime: "EEEE, d MMM yy, hh:mm a"
+  };
+
+  // Get the selected format
+  const selectedFormat = formatMap[format] || formatMap['datetime'];
+
+  // Return the formatted date
+  return dateTime.toFormat(selectedFormat);
+}

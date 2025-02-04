@@ -3,6 +3,7 @@ import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { geoApi } from '@/lib/axiosInstances';
 
 interface SearchBarProps {
   onSearch: (city: string) => void;
@@ -41,10 +42,7 @@ export function SearchBar({ onSearch, className }: SearchBarProps) {
       }
 
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_OPENWEATHER_GEO_API}/direct?q=${query}&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
-        );
-        const data = await response.json();
+        const data = await geoApi.get(`/direct?q=${query}&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`);
         setSuggestions(data);
       } catch (error) {
         console.error('Error fetching suggestions:', error);

@@ -74,7 +74,7 @@ export function WeatherCard({ data, setCity }: WeatherCardProps) {
             </div>
           </div>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-          <HourlyForecast data={data.hourly} />
+          <HourlyForecast data={data.hourly} timezone={data.timezone} />
         </div>
       </div>
     </div>

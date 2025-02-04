@@ -1,11 +1,12 @@
 import { kelvinToCelsius } from '@/lib/utils';
 import { WeatherResponse } from '@/types/weather';
+import { getLocalTimeFromUTC } from '@/lib/utils';
 
 interface HourlyForecastProps {
     data: Required<WeatherResponse>['hourly']
 }
 
-export function HourlyForecast({ data }: HourlyForecastProps) {
+export function HourlyForecast({ data, timezone }: HourlyForecastProps) {
     return (
         <div className="mt-6">
             <div className="grid grid-cols-1 gap-2">
@@ -22,7 +23,7 @@ export function HourlyForecast({ data }: HourlyForecastProps) {
                             />
                             <div className='flex flex-col'>
                                 <span className="text-white/80 text-sm">
-                                    {new Date(hour.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    {getLocalTimeFromUTC(hour.dt, timezone, 'time')}
                                 </span>
                                 <span className='text-white/80 text-sm'>{hour.weather[0].main}</span>
                             </div>
